@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import todoRoute from "./routes/todo_route.js"
+import authRoute from "./routes/auth_route.js"
 import dotenv from "dotenv"
 
 const app = express()
@@ -17,6 +18,7 @@ db.once('open', () => console.log('database connected'))
 
 app.use(express.json())
 
+app.use('/', authRoute)
 app.use('/todo', todoRoute)
 
 app.listen(PORT, () => {

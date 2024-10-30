@@ -43,7 +43,7 @@ export const signIn = async (req, res) => {
                     jwt.sign({
                         id: user._id,
                         name: user.name,
-                    }, process.env.SECRECT_KEY, {
+                    }, process.env.SECRET_KEY, {
                         expiresIn: 60 * 60 * 24 * 30
                     }, (error, token) => {
                         if (token) {
@@ -72,6 +72,29 @@ export const signIn = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: "Error while sign in",
+            error,
+        })
+    }
+}
+
+// set blacklist
+export const blackList = new Set()
+
+// logout
+export const logout = (req, res) => {
+    try {
+        const token = req.headers.authorization.split(' ')[1]
+
+        blackList.add(token)
+        jwt.verify(token, process.env.SECRET_KEY, {
+            ignoreExpiration: true
+        })
+        res.status(200).json({
+            message: "Logged out"
+        })
+    } catch (error) {
+        res.status(500).json({
+            message: "Error while logout",
             error,
         })
     }

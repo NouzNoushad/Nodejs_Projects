@@ -12,10 +12,6 @@ export const uploadUserData = (req, res) => {
                 })
             }
             if (req.file) {
-                // save image
-                req.file.uuid = uuidv4()
-                const image = await fileSchema.create(req.file)
-
                 // validations
                 const { name, email } = req.body
                 if (!name || !email) {
@@ -32,6 +28,10 @@ export const uploadUserData = (req, res) => {
                             message: 'Email already taken'
                         })
                     } else {
+                        // save image
+                        req.file.uuid = uuidv4()
+                        const image = await fileSchema.create(req.file)
+
                         // save user
                         const port = process.env.PORT || 3000
                         const newUser = userSchema({
@@ -51,6 +51,22 @@ export const uploadUserData = (req, res) => {
         res.status(404).json({
             message: 'Something went wrong',
             error: error,
+        })
+    }
+}
+
+// get user data
+export const getUserData = async (req, res) => {
+    try {
+        const userList = await userSchema.find({})
+        res.status(200).json({
+            message: `${userList.length} items`,
+            userList
+        })
+    } catch (error) {
+        res.status(404).json({
+            message: 'Something went wrong',
+            error: error
         })
     }
 }

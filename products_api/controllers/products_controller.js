@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from "uuid"
 import fileSchema from "../models/file_model.js"
 import productsSchema from "../models/products_model.js"
 
+// upload products data
 export const uploadProductsData = (req, res) => {
     try {
         req.upload(req, res, async (error) => {
@@ -54,6 +55,22 @@ export const uploadProductsData = (req, res) => {
                     }
                 }
             }
+        })
+    } catch (error) {
+        res.status(404).json({
+            message: 'Something went wrong',
+            error: error
+        })
+    }
+}
+
+// get products data
+export const getProductsData = async (req, res) => {
+    try {
+        const products = await productsSchema.find({})
+        res.status(200).json({
+            message: `${products.length} items`,
+            products
         })
     } catch (error) {
         res.status(404).json({

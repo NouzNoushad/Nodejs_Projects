@@ -2,26 +2,23 @@ import mongoose from "mongoose";
 
 const { Schema } = mongoose
 
-const productSchema = Schema({
-    image: {
-        type: String,
-    },
-    name: {
+const fileSchema = Schema({
+    filename: {
         type: String,
         required: true
     },
-    brand: {
+    path: {
         type: String,
+        required: true
     },
-    price: {
+    size: {
         type: Number,
         required: true
     },
-    description: {
+    uuid: {
         type: String,
+        required: true
     }
-}, {
-    timestamps: true
 })
 
-export default mongoose.model('products', productSchema)
+export default mongoose.model('productsFile', fileSchema)

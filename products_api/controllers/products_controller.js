@@ -79,3 +79,19 @@ export const getProductsData = async (req, res) => {
         })
     }
 }
+
+// delete product 
+export const deleteProduct = async (req, res) => {
+    try {
+        const { id } = req.params
+        await productsSchema.findByIdAndDelete(id)
+        res.status(200).json({
+            message: 'Product deleted'
+        })
+    } catch (error) {
+        res.status(404).json({
+            message: 'Something went wrong',
+            error: error
+        })
+    }
+}

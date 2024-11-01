@@ -2,6 +2,7 @@ import express from "express"
 import mongoose from "mongoose"
 import dotenv from "dotenv"
 import path from "path"
+import cors from "cors"
 import { fileURLToPath } from "url"
 import { dirname } from "path"
 import userRoute from "./routes/user_route.js"
@@ -25,6 +26,8 @@ app.use('/public', express.static(path.join(__dirname, 'public')))
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+
+app.use(cors())
 
 app.use('/', userRoute)
 
